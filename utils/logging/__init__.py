@@ -2,7 +2,7 @@
 Módulo de logging personalizado para MSTR_STARDUST
 """
 
-from .setup import setup_logger
+from .setup_logger import setup_logger
 from .custom_logger import get_logger
 
 # Exportar lo que necesiten otros módulos

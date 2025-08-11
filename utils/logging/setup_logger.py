@@ -33,6 +33,8 @@ def setup_logger(process_id=None):
         logging.addLevelName(26, 'TITLE')   # Entre HEADER (25) y WARNING (30)
     if not hasattr(logging, 'HELPER'):
         logging.addLevelName(27, 'HELPER')  # Entre TITLE (26) y WARNING (30)
+    if not hasattr(logging, 'SALTO'):
+        logging.addLevelName(28, 'SALTO')   # Nivel para salto de línea
     
     # Limpiar handlers existentes para reconfigurar
     logger.handlers.clear()
@@ -42,9 +44,27 @@ def setup_logger(process_id=None):
     # Formatador
     formatter = logging.Formatter('[%(asctime)s] - [%(levelname)s] - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
     
-    # Console handler
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
+    # Console handler personalizado para HELPER
+    class HelperStreamHandler(logging.StreamHandler):
+        def emit(self, record):
+            # Mostrar salto como línea vacía
+            if record.levelname == 'SALTO':
+                print("")
+                return
+            # Mostrar personalizados igual que los estándar
+            if record.levelname in ('HEADER', 'TITLE', 'SEPARADOR'):
+                msg = self.format(record)
+                print(msg)
+                return
+            # Mostrar todos los niveles personalizados
+            if record.levelno >= 25 and record.levelname not in ('INFO','WARNING','ERROR','DEBUG','CRITICAL'):
+                msg = self.format(record)
+                print(msg)
+                return
+            super().emit(record)
+
+    console_handler = HelperStreamHandler()
+    console_handler.setLevel(logging.DEBUG)
     console_handler.setFormatter(formatter)
     logger.addHandler(console_handler)
     
@@ -78,9 +98,23 @@ def setup_logger(process_id=None):
 logging.setLoggerClass(CustomLogger)
 _default_logger = logging.getLogger("ProcessManager")
 if not _default_logger.handlers:
-    _handler = logging.StreamHandler()
+    class HelperStreamHandler(logging.StreamHandler):
+        def emit(self, record):
+            if record.levelname == 'SALTO':
+                print("")
+                return
+            if record.levelname in ('HEADER', 'TITLE', 'SEPARADOR'):
+                msg = self.format(record)
+                print(msg)
+                return
+            if record.levelno >= 25 and record.levelname not in ('INFO','WARNING','ERROR','DEBUG','CRITICAL'):
+                msg = self.format(record)
+                print(msg)
+                return
+            super().emit(record)
+    _handler = HelperStreamHandler()
     _handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
     _default_logger.addHandler(_handler)
-    _default_logger.setLevel(logging.INFO)
+    _default_logger.setLevel(logging.DEBUG)
 
 logger = _default_logger
