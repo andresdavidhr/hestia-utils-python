@@ -1,9 +1,9 @@
 import unittest
-from utils.logger import get_logger
+from utils.logger import setup_logger
 
 class TestLogging(unittest.TestCase):
     def test_logger_info(self):
-        logger = get_logger()
+        logger = setup_logger(f"Test")
         try:
             # - Loggers personalizados
             logger.title("Esto es un titulo")

@@ -1,3 +1,2 @@
 # Requerimientos principales para hestia-utils-python
 pyyaml
-PyYAML>=6.0
