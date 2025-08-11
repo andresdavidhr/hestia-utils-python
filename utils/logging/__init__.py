@@ -1,0 +1,15 @@
+"""
+Módulo de logging personalizado para MSTR_STARDUST
+"""
+
+from .setup import setup_logger
+from .custom_logger import get_logger
+
+# Exportar lo que necesiten otros módulos
+__all__ = ['setup_logger', 'get_logger']
+
+# Mantener compatibilidad con imports existentes
+logger = None  # Se inicializará cuando se llame setup_logger
+
+# Re-exportar para compatibilidad con código existente que usa:
+# from utils.logger import setup_logger, get_logger

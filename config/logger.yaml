@@ -1,0 +1,9 @@
+
+# Configuración de logging
+logging:
+  backup_count: 35  # Número de archivos de respaldo
+
+formats: 
+  separador: 
+    char: '-' # Caracter utilizado para el separador
+    length: 80 # Longitud del separador

@@ -1,0 +1,5 @@
+# - Descartes generales
+/.idea/
+/.vscode/
+*__pycache__*
+/logs/*
