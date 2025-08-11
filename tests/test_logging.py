@@ -1,5 +1,5 @@
 import unittest
-from utils.logging import get_logger
+from utils.logger import get_logger
 
 class TestLogging(unittest.TestCase):
     def test_logger_info(self):

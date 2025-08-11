@@ -1,5 +1,5 @@
 from time import sleep
-from utils.logging import get_logger
+from utils.logger import get_logger
 
 
 def fsleep(seconds):
