@@ -3,8 +3,7 @@ from utils.logging import setup_logger, get_logger
 
 class TestLogging(unittest.TestCase):
     def test_logger_info(self):
-        setup_logger()
-        logger = get_logger()
+        logger = setup_logger(f"Iniciando proceso Prueba")
         try:
             # - Loggers personalizados
             logger.title("Esto es un titulo")
