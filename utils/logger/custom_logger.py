@@ -28,35 +28,58 @@ class CustomLogger(logging.Logger):
     def salto(self, pintar, *args, **kwargs):
         self._custom_log('SALTO', pintar, "", *args, **kwargs)
 
-    def info(self, pintar, message, *args, **kwargs):
+    def info(self, message, *args, pintar=True, **kwargs):
         if pintar:
             super().info(message, *args, **kwargs)
             flog(pintar, message)
+        else:
+            super().info(message, *args, **kwargs)
 
-    def error(self, pintar, message, *args, **kwargs):
+    def error(self, message, *args, pintar=True, **kwargs):
         if pintar:
             super().error(message, *args, **kwargs)
             flog(pintar, message)
+        else:
+            super().error(message, *args, **kwargs)
 
-    def debug(self, pintar, message, *args, **kwargs):
+    def debug(self, message, *args, pintar=True, **kwargs):
         if pintar:
             super().debug(message, *args, **kwargs)
             flog(pintar, message)
+        else:
+            super().debug(message, *args, **kwargs)
 
-    def critical(self, pintar, message, *args, **kwargs):
+    def critical(self, message, *args, pintar=True, **kwargs):
         if pintar:
             super().critical(message, *args, **kwargs)
             flog(pintar, message)
+        else:
+            super().critical(message, *args, **kwargs)
 
-    def warning(self, pintar, message, *args, **kwargs):
+    def warning(self, message, *args, pintar=True, **kwargs):
         if pintar:
             super().warning(message, *args, **kwargs)
             flog(pintar, message)
+        else:
+            super().warning(message, *args, **kwargs)
 
-    def exception(self, pintar, message, *args, **kwargs):
+    def exception(self, pintar=True, message=None, *args, **kwargs):
+        """
+        Pinta la excepción y el traceback en el log y por pantalla.
+        Compatible con la llamada estándar.
+        """
+        import traceback
+        if message is None and args:
+            message = args[0]
+            args = args[1:]
+        tb = traceback.format_exc()
         if pintar:
             super().exception(message, *args, **kwargs)
-            flog(pintar, message)
+            self.error(f"EXCEPCIÓN: {message}\n{tb}", pintar=pintar)
+            flog(pintar, f"EXCEPCIÓN: {message}")
+            flog(pintar, tb)
+        else:
+            super().exception(message, *args, **kwargs)
 
 def get_logger():
     """Obtiene el logger configurado"""

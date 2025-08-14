@@ -80,6 +80,6 @@ def setup_logger(process_id=None, pintar_log=True):
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
 
-        logger.info(pintar_log, f"Log iniciado para proceso {process_id}: {log_file}")
+        logger.info(f"Log iniciado para proceso {process_id}: {log_file}", pintar=pintar_log)
 
     return logger
