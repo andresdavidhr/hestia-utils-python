@@ -1,2 +1,3 @@
 # Requerimientos principales para hestia-utils-python
 pyyaml
+pytest
