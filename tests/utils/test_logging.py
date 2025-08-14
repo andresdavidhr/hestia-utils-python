@@ -24,11 +24,11 @@ def test_logger_info_true():
     sys.stdout = io.StringIO()
     logger.title(True, "Esto es un titulo")
     logger.salto(True)
-    logger.info(True, "Esto es info")
-    logger.error(True, "Esto es un error")
-    logger.debug(True, "Esto es un debug")
-    logger.critical(True, "Esto es un critical")
-    logger.warning(True, "Esto es un warning")
+    logger.info("Esto es info", pintar=True)
+    logger.error("Esto es un error", pintar=True)
+    logger.debug("Esto es un debug", pintar=True)
+    logger.critical("Esto es un critical", pintar=True)
+    logger.warning("Esto es un warning", pintar=True)
     output_true = sys.stdout.getvalue()
     assert "Esto es un titulo" in output_true
     assert "Esto es info" in output_true
@@ -44,11 +44,11 @@ def test_logger_info_false():
     sys.stdout = io.StringIO()
     logger.title(False, "Esto es un titulo")
     logger.salto(False)
-    logger.info(False, "Esto es info")
-    logger.error(False, "Esto es un error")
-    logger.debug(False, "Esto es un debug")
-    logger.critical(False, "Esto es un critical")
-    logger.warning(False, "Esto es un warning")
+    logger.info("Esto es info", pintar=False)
+    logger.error("Esto es un error", pintar=False)
+    logger.debug("Esto es un debug", pintar=False)
+    logger.critical("Esto es un critical", pintar=False)
+    logger.warning("Esto es un warning", pintar=False)
     output_false = sys.stdout.getvalue()
     assert output_false == ""
     sys.stdout = stdout_original
