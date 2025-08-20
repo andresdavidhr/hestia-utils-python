@@ -1,9 +1,13 @@
 import os
+import sys
 import tempfile
 import time
 import shutil
 import pytest
 from utils.fcleanDir import fcleanDir
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
 
 @pytest.fixture
 def test_dir():
@@ -21,7 +25,7 @@ def test_dir():
     # Eliminar el directorio temporal y su contenido
     shutil.rmtree(dirpath)
 
-def test_elimina_archivos_antiguos(test_dir):
+def test_elimina_archivos_antiguos(test_dir: tuple[str, str, str]):
     dirpath, old_file, new_file = test_dir
     # Solo debe eliminar el archivo viejo
     result = fcleanDir(dirpath, "*.log", diasBorrar=35)
@@ -29,7 +33,7 @@ def test_elimina_archivos_antiguos(test_dir):
     assert not os.path.exists(old_file)
     assert os.path.exists(new_file)
 
-def test_no_elimina_si_diasBorrar_cero(test_dir):
+def test_no_elimina_si_diasBorrar_cero(test_dir: tuple[str, str, str]):
     dirpath, old_file, new_file = test_dir
     # No debe eliminar nada si diasBorrar <= 0
     result = fcleanDir(dirpath, "*.log", diasBorrar=0)
@@ -42,7 +46,7 @@ def test_directorio_inexistente():
     result = fcleanDir("/ruta/que/no/existe", "*.log", diasBorrar=35)
     assert not result
 
-def test_patron_no_coincide(test_dir):
+def test_patron_no_coincide(test_dir: tuple[str, str, str]):
     dirpath, old_file, new_file = test_dir
     # Si el patrón no coincide, no debe eliminar nada
     result = fcleanDir(dirpath, "*.txt", diasBorrar=35)

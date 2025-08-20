@@ -1,6 +1,9 @@
+import os
 from utils.flog import flog
 from io import StringIO
 import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 def test_flog_activo_true():
     captured = StringIO()

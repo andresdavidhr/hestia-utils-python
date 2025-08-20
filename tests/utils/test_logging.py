@@ -6,6 +6,8 @@ import os
 import glob
 import time
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+
 @pytest.fixture(autouse=True)
 def limpiar_logs_residuales_fixture():
     yield
@@ -55,3 +57,21 @@ def test_logger_info_false():
     time.sleep(1)
     logs = glob.glob(os.path.join(logs_dir, "process_TestLogger02_*.log"))
     assert not logs, "Se generó el archivo de log para TestLogger cuando no debía"
+
+def test_logger_exception_pinta_traza(tmp_path):
+    logger = setup_logger("TestLogger03", True)
+    logs_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'logs'))
+    log_file = None
+    try:
+        raise ValueError("Error de prueba para logger")
+    except Exception as e:
+        logger.exception(True, f"Excepción capturada: {str(e)}")
+        # Buscar el log generado
+        time.sleep(1)
+        logs = glob.glob(os.path.join(logs_dir, "process_TestLogger03_*.log"))
+        assert logs, "No se generó el archivo de log para la excepción"
+        log_file = logs[0]
+        with open(log_file, encoding="utf-8") as f:
+            contenido = f.read()
+        assert "Excepción capturada: Error de prueba para logger" in contenido
+        assert "ValueError" in contenido or "Traceback" in contenido

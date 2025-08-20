@@ -1,8 +1,18 @@
 #!/bin/bash
 # Script para ejecutar todos los tests de Python del proyecto
 
-if python3 -m unittest discover tests > /dev/null 2>&1; then
-	echo OK
-else
-	echo ERROR
-fi
+export PYTHONPATH=$(pwd)
+
+TESTS_LIST=(tests/test_estructura.py tests/utils)
+COUNT=1
+TOTAL=${#TESTS_LIST[@]}
+
+for TEST in "${TESTS_LIST[@]}"; do
+    echo "[$COUNT/$TOTAL] - Revisión de $TEST"
+    pytest "$TEST"
+    if [ $? -ne 0 ]; then
+        echo "ERROR - No ha pasado las pruebas de $TEST."
+        exit 1
+    fi
+    COUNT=$((COUNT+1))
+done
