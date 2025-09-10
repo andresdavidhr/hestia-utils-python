@@ -31,36 +31,21 @@ class CustomLogger(logging.Logger):
     def info(self, message, *args, pintar=True, **kwargs):
         if pintar:
             super().info(message, *args, **kwargs)
-            flog(pintar, message)
-        else:
-            super().info(message, *args, **kwargs)
 
     def error(self, message, *args, pintar=True, **kwargs):
         if pintar:
-            super().error(message, *args, **kwargs)
-            flog(pintar, message)
-        else:
             super().error(message, *args, **kwargs)
 
     def debug(self, message, *args, pintar=True, **kwargs):
         if pintar:
             super().debug(message, *args, **kwargs)
-            flog(pintar, message)
-        else:
-            super().debug(message, *args, **kwargs)
 
     def critical(self, message, *args, pintar=True, **kwargs):
         if pintar:
             super().critical(message, *args, **kwargs)
-            flog(pintar, message)
-        else:
-            super().critical(message, *args, **kwargs)
 
     def warning(self, message, *args, pintar=True, **kwargs):
         if pintar:
-            super().warning(message, *args, **kwargs)
-            flog(pintar, message)
-        else:
             super().warning(message, *args, **kwargs)
 
     def exception(self, pintar=True, message=None, *args, **kwargs):
@@ -76,10 +61,10 @@ class CustomLogger(logging.Logger):
         if pintar:
             super().exception(message, *args, **kwargs)
             self.error(f"EXCEPCIÓN: {message}\n{tb}", pintar=pintar)
-            flog(pintar, f"EXCEPCIÓN: {message}")
-            flog(pintar, tb)
-        else:
-            super().exception(message, *args, **kwargs)
+            #flog(pintar, f"EXCEPCIÓN: {message}")
+            #flog(pintar, tb)
+       # else:
+          #  super().exception(message, *args, **kwargs)
 
 def get_logger():
     """Obtiene el logger configurado"""
