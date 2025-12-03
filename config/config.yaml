@@ -1,0 +1,5 @@
+output:
+  sql_dir: output
+  enviados_dir: output/enviados
+  lista_extensiones_excluidas_replace: ['zip','tar','xlsx'] 
+

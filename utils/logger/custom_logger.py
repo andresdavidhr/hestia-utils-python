@@ -3,7 +3,6 @@ Logger personalizado con métodos adicionales
 """
 
 import logging
-from utils.flog import flog
 
 class CustomLogger(logging.Logger):
     """Logger personalizado """
@@ -13,7 +12,6 @@ class CustomLogger(logging.Logger):
         if pintar:
             if isinstance(level, int) and self.isEnabledFor(level):
                 self._log(level, message, args, **kwargs)
-                flog(pintar, message)
         # Si pintar es False, no hace nada (ni log, ni flog)
 
     def header(self, pintar, message, *args, **kwargs):
@@ -59,13 +57,23 @@ class CustomLogger(logging.Logger):
             args = args[1:]
         tb = traceback.format_exc()
         if pintar:
-            super().exception(message, *args, **kwargs)
+            print(f"EXCEPCIÓN: {message}\n{tb}")
             self.error(f"EXCEPCIÓN: {message}\n{tb}", pintar=pintar)
-            #flog(pintar, f"EXCEPCIÓN: {message}")
-            #flog(pintar, tb)
-       # else:
-          #  super().exception(message, *args, **kwargs)
+        else:
+            super().exception(message, *args, **kwargs)
 
 def get_logger():
     """Obtiene el logger configurado"""
     return logging.getLogger("ProcessManager")
+
+def get_fichero_log():
+    """Devuelve el nombre del fichero de log"""
+    logger = get_logger()
+    # Aunque normalmente hay un solo FileHandler, logger.handlers es una lista porque
+    # el logger puede tener múltiples handlers (por ejemplo, para consola y archivo).
+    # Se recorre la lista para encontrar el FileHandler y devolver su baseFilename.
+    for handler in logger.handlers:
+        if isinstance(handler, logging.FileHandler):
+            logger.debug(f"Archivo de log encontrado: {handler.baseFilename}")
+            return handler.baseFilename
+    return None

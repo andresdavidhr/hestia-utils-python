@@ -4,7 +4,7 @@ import tempfile
 import time
 import shutil
 import pytest
-from utils.fcleanDir import fcleanDir
+from utils.fdir_and_files import fcleanDir
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 

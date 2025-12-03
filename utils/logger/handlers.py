@@ -4,8 +4,6 @@ Handlers personalizados para el sistema de logging
 
 from logging.handlers import RotatingFileHandler
 
-from utils.flog import flog
-
 from .helpers.separador import create_separador
 from .helpers.header import create_header
 from .helpers.title import create_title
@@ -38,18 +36,18 @@ class HeaderFileHandler(RotatingFileHandler):
         if text == "":
             with open(self.baseFilename, 'a', encoding='utf-8') as f:
                 f.write("\n")
-            flog("")
+            print("")
         else:
             with open(self.baseFilename, 'a', encoding='utf-8') as f:
                 f.write(text + "\n")
-            flog(text)
+            print(text)
 
     def _write_header(self, record):
         if not self.header_written and self.process_id:
             header_text = create_header(self.process_id)
             with open(self.baseFilename, 'w', encoding='utf-8') as f:
                 f.write(header_text + "\n")
-            flog(header_text)
+            print(header_text)
             self.header_written = True
             # Escribir encabezado directamente
             with open(self.baseFilename, 'w', encoding='utf-8') as f:

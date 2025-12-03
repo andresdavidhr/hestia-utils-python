@@ -5,9 +5,6 @@ Configuración principal del sistema de logging
 import logging
 from pathlib import Path
 from datetime import datetime
-
-from utils.flog import flog
-
 from .custom_logger import CustomLogger
 from .handlers import HeaderFileHandler
 
@@ -46,12 +43,14 @@ def setup_logger(process_id=None, pintar_log=True):
         def emit(self, record):
             # Mostrar salto como línea vacía
             if record.levelname == 'SALTO':
-                flog(pintar_log, "")
+                if pintar_log:
+                    print("")
                 return
             # Mostrar personalizados igual que los estándar
             if record.levelname in ('HEADER', 'TITLE', 'SEPARADOR'):
                 msg = self.format(record)
-                flog(pintar_log, msg)
+                if pintar_log:
+                    print(msg)
                 return
             super().emit(record)
 
@@ -64,10 +63,9 @@ def setup_logger(process_id=None, pintar_log=True):
     if process_id and pintar_log:
         # Formato de fecha YYYYMMDD_HHMMSS
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        log_file = f"logs/process_{process_id}_{timestamp}.log"
-
-        # Crear directorio
-        Path(log_file).parent.mkdir(parents=True, exist_ok=True)
+        log_dir = Path(__file__).parent.parent.parent / "logs"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        log_file = log_dir / f"process_{process_id}_{timestamp}.log"
 
         # File handler personalizado
         file_handler = HeaderFileHandler(

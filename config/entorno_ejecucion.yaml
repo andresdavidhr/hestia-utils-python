@@ -1,0 +1,13 @@
+
+TEST:
+  logger: False # - No deja traza de log
+  envios: False # - No realiza envios de datos
+DES:
+  logger: True  # - Deja traza de log
+  envios: False # - No realiza envio de datos
+PRO:
+  logger: True  # - Deja traza de log
+  envios: True  # - Realiza envios de datos
+INFO:
+  logger: False # - No deja traza de log
+  envios: False # - No realiza envios de datos
